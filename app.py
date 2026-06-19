@@ -1,9 +1,8 @@
 import cv2
 import mediapipe as mp
-import numpy as np
 import pygame
-import math
 import time
+from pathlib import Path
 
 # Init
 mp_hands = mp.solutions.hands
@@ -11,15 +10,14 @@ hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
 mp_draw = mp.solutions.drawing_utils
 pygame.init()
 pygame.mixer.init()
+BASE_DIR = Path(__file__).resolve().parent
+SOUNDS_DIR = BASE_DIR / "sounds"
+CHORD_FILES = ["1.mp3", "2.mp3", "EM.mp3", "GM.mp3", "3.mp3", "4.mp3"]
 
 # Load music files
 chords = {
-    0: pygame.mixer.Sound("sounds/1.mp3"),
-    1: pygame.mixer.Sound("sounds/2.mp3"),
-    2: pygame.mixer.Sound("sounds/EM.mp3"),
-    3: pygame.mixer.Sound("sounds/GM.mp3"),
-    4: pygame.mixer.Sound("sounds/3.mp3"),
-    5: pygame.mixer.Sound("sounds/4.mp3")
+    index: pygame.mixer.Sound(str(SOUNDS_DIR / filename))
+    for index, filename in enumerate(CHORD_FILES)
 }
 
 # Count fingers
@@ -59,6 +57,9 @@ def detect_strum(y):
 
 
 cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    raise RuntimeError("Could not open webcam. Check camera permission or device index.")
+
 current_chord = 0
 while cap.isOpened():
     success, img = cap.read()

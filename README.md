@@ -1,86 +1,59 @@
-# 🎸 Air Guitar with MediaPipe and Python
+# Air Guitar
 
-This is a virtual **Air Guitar** built using **MediaPipe**, **OpenCV**, and **Pygame** in Python. It lets you play guitar chords by simply using hand gestures in front of your webcam!
+基于 [agneya-1402/AirGuitar](https://github.com/agneya-1402/AirGuitar) 制作的空气吉他。左手伸出的手指数选择和弦，右手快速上下移动触发扫弦，声音来自 `sounds/` 里的 MP3 文件。
 
-- 🖐️ Left hand: Chooses the chord based on the number of fingers up (like fretting).
-- 🤚 Right hand: Detects strumming motion (like a real strum).
-- 🔊 Plays sound based on the selected chord and strumming action.
+这个版本保留了原始 Python 玩法，并新增了一个更容易直接运行的浏览器版。
 
+## Browser Version
 
-## 🧠 How It Works
+浏览器版使用 MediaPipe Tasks Vision、摄像头和 Web Audio，不需要安装 Python 的 MediaPipe 包。
 
-- Uses **MediaPipe Hands** to track both hands in real time.
-- **Left hand** is used to count the number of raised fingers → selects one of 6 chords (0–5).
-- **Right hand** is monitored for a quick vertical movement → simulates a strum.
-- When a strum is detected, the currently selected chord is played using **Pygame** audio.
-
-
-## 📁 Project Structure
-
-air_guitar/
-├── air_guitar.py # Main Python script
-└── sounds/
-├── 1.mp3
-├── 2.mp3
-├── EM.mp3
-├── GM.mp3
-├── 3.mp3
-└── 4.mp3
-
-
-> 🎵 **Note:** You need to provide your own chord or strumming `.mp3` files inside the `sounds/` folder.  
-> These will correspond to finger counts 0 through 5.
-
-
-## 🚀 Getting Started
-
-### 1. Clone this repository
-
+```bash
+python -m http.server 8000
 ```
-git clone https://github.com/agneya-1402/AirGuitar.git
-cd AirGuitar
+
+然后打开：
+
+```text
+http://localhost:8000/web/
 ```
-### 2. Install requirements
-```
-pip install opencv-python mediapipe pygame
-```
-### 3. Add your own chord audio files
-Create a sounds/ folder in the same directory as the script, and add 6 .mp3 sound files:
 
-1.mp3 → 0 fingers
+点击 `Start Camera`，允许摄像头权限即可开始。
 
-2.mp3 → 1 finger
+## Python Version
 
-EM.mp3 → 2 fingers
+建议使用 Python 3.10 或 3.11，因为 MediaPipe 的 Python wheel 通常不支持最新 Python 版本。
 
-GM.mp3 → 3 fingers
-
-3.mp3 → 4 fingers
-
-4.mp3 → 5 fingers
-
-Feel free to rename and swap these with real chord sounds (e.g., from a guitar sample pack).
-
-### 4. Run the script
-```
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
 python app.py
 ```
-Then wave your hands in front of your webcam!
 
+按 `q` 退出 OpenCV 窗口。
 
-## 🛠️ Tech Stack
-MediaPipe – Real-time hand tracking
-OpenCV – Webcam and UI rendering
-Pygame – Sound playback
+## Controls
 
-## 🤘 Future Improvements
-Add more realistic strumming logic (velocity-based volume or multi-string simulation)
-Visual fretboard and chord labels
-Add a GUI using Tkinter or PyQt
-Create a browser version using MediaPipe Hands in JavaScript
+- 左手：伸出 0 到 5 根手指，对应 6 个和弦采样。
+- 右手：快速竖向移动，触发当前和弦播放。
+- 浏览器版右侧和弦按钮也可以直接点击试听。
 
-## 🙌 Credits
-Made with 💻 and 🎸 by Agneya Pathare
+## Chord Files
 
-## 📄 License
-MIT License – do whatever you want, just give credit!
+默认映射：
+
+| Fingers | Chord | File |
+| --- | --- | --- |
+| 0 | C | `sounds/1.mp3` |
+| 1 | D | `sounds/2.mp3` |
+| 2 | Em | `sounds/EM.mp3` |
+| 3 | G | `sounds/GM.mp3` |
+| 4 | Am | `sounds/3.mp3` |
+| 5 | F | `sounds/4.mp3` |
+
+你可以替换这些 MP3 文件来换成自己的吉他音色。
+
+## Credits
+
+Original project: [agneya-1402/AirGuitar](https://github.com/agneya-1402/AirGuitar), MIT License.

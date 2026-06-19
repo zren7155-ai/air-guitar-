@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Air Guitar</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="stage" aria-label="Air Guitar camera stage">
+        <video id="camera" playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div class="camera-prompt" id="cameraPrompt">
+          <button id="stageStartButton" type="button">开启摄像头手势</button>
+          <p id="cameraHint">允许摄像头后，你会在这里看到自己。左手选和弦，右手扫弦。</p>
+        </div>
+        <div class="hud">
+          <div>
+            <span class="label">Chord</span>
+            <strong id="chordName">C</strong>
+          </div>
+          <div>
+            <span class="label">Fingers</span>
+            <strong id="fingerCount">0</strong>
+          </div>
+          <div>
+            <span class="label">Strum</span>
+            <strong id="strumState">Ready</strong>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Air Guitar controls">
+        <header>
+          <h1>Air Guitar</h1>
+          <p>左手选和弦，右手扫弦。把双手放进摄像头画面，开始弹。</p>
+        </header>
+
+        <div class="controls">
+          <button id="startButton" type="button">开启摄像头</button>
+          <button id="muteButton" type="button" aria-pressed="false">Mute</button>
+        </div>
+
+        <div class="chords" id="chordGrid" aria-label="Chord samples"></div>
+
+        <div class="meter" aria-label="Right hand strum speed">
+          <div class="meter-head">
+            <span>Strum speed</span>
+            <span id="speedValue">0.00</span>
+          </div>
+          <div class="bar"><span id="speedBar"></span></div>
+        </div>
+
+        <p id="status" class="status">Waiting for camera permission.</p>
+      </aside>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4/hands.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
